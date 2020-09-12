@@ -73,4 +73,84 @@ public class DBManager {
         return players;
     }
 
+    public Player getPlayer(Long id){
+
+        Player player = null;
+
+        try{
+
+            PreparedStatement statement = connection.prepareStatement("" +
+                    "SELECT id, name, surname, club, transfer_price FROM players WHERE id = ? LIMIT 1");
+
+            statement.setLong(1, id);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()){
+                player = new Player(
+                        resultSet.getLong("id"),
+                        resultSet.getString("name"),
+                        resultSet.getString("surname"),
+                        resultSet.getString("club"),
+                        resultSet.getDouble("transfer_price")
+                );
+            }
+
+            statement.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return player;
+    }
+
+    public boolean updatePlayer(Player player){
+
+        int rows = 0;
+
+        try{
+
+            PreparedStatement statement = connection.prepareStatement("" +
+                    "UPDATE players SET name = ?, surname = ?, club = ?, transfer_price = ? " +
+                    "WHERE id = ? ");
+
+            statement.setString(1, player.getName());
+            statement.setString(2, player.getSurname());
+            statement.setString(3, player.getClub());
+            statement.setDouble(4, player.getPrice());
+            statement.setLong(5, player.getId());
+
+            rows = statement.executeUpdate();
+            statement.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return rows>0;
+
+    }
+
+    public boolean deletePlayer(Long id){
+
+        int rows = 0;
+
+        try{
+
+            PreparedStatement statement = connection.prepareStatement("" +
+                    "DELETE FROM players " +
+                    "WHERE id = ? ");
+
+            statement.setLong(1, id);
+
+            rows = statement.executeUpdate();
+            statement.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return rows>0;
+
+    }
+
 }

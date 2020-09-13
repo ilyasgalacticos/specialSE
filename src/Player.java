@@ -3,10 +3,10 @@ public class Player {
     private Long id;
     private String name;
     private String surname;
-    private String club;
+    private Club club;
     private double price;
 
-    public Player(Long id, String name, String surname, String club, double price) {
+    public Player(Long id, String name, String surname, Club club, double price) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -41,11 +41,11 @@ public class Player {
         this.surname = surname;
     }
 
-    public String getClub() {
+    public Club getClub() {
         return club;
     }
 
-    public void setClub(String club) {
+    public void setClub(Club club) {
         this.club = club;
     }
 
@@ -59,6 +59,6 @@ public class Player {
 
     @Override
     public String toString() {
-        return this.id + " " + this.name + " " + this.surname + " " + this.club + " " + (int)this.price;
+        return this.id + " " + this.name + " " + this.surname + " [" + this.club.getName() + " " + this.club.getCity().getName() + "-" + this.club.getCity().getCountry() +"] " + (int)this.price;
     }
 }
